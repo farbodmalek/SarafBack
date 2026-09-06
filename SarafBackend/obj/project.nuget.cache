@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Ar+tS99y8KU=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\0200272128\\source\\repos\\SarafBackend\\SarafBackend\\SarafBackend.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\0200272128\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.11\\microsoft.aspnetcore.openapi.10.0.11.nupkg.sha512",
+    "C:\\Users\\0200272128\\.nuget\\packages\\microsoft.openapi\\2.7.5\\microsoft.openapi.2.7.5.nupkg.sha512"
+  ],
+  "logs": []
+}
