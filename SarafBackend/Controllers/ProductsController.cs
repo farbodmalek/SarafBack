@@ -21,7 +21,7 @@ public class ProductsController : ControllerBase
     }
 
 
-    [HttpGet]
+    [HttpGet("List")]
     public async Task<IActionResult> GetAll([FromQuery] string? category)
     {
         var result = await _mediator.Send(new GetAllProductsQuery(category));
