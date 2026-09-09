@@ -20,8 +20,7 @@ public class ProductsController : ControllerBase
         _mediator = mediator;
     }
 
-    // GET /api/products
-    // GET /api/products?category=lebas-majlesi
+
     [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] string? category)
     {

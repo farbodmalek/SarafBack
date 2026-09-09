@@ -1,0 +1,15 @@
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\obj\Debug\net10.0\CommonLibrary.csproj.AssemblyReference.cache
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\obj\Debug\net10.0\CommonLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\obj\Debug\net10.0\CommonLibrary.AssemblyInfoInputs.cache
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\obj\Debug\net10.0\CommonLibrary.AssemblyInfo.cs
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\obj\Debug\net10.0\CommonLibrary.csproj.CoreCompileInputs.cache
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\obj\Debug\net10.0\CommonLibrary.sourcelink.json
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\bin\Debug\net10.0\CommonLibrary.deps.json
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\bin\Debug\net10.0\CommonLibrary.runtimeconfig.json
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\bin\Debug\net10.0\CommonLibrary.dll
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\bin\Debug\net10.0\CommonLibrary.pdb
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\obj\Debug\net10.0\CommonLibrary.dll
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\obj\Debug\net10.0\refint\CommonLibrary.dll
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\obj\Debug\net10.0\CommonLibrary.pdb
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\obj\Debug\net10.0\CommonLibrary.genruntimeconfig.cache
+C:\Users\0200272128\source\repos\SarafBackend\CommonLibrary\obj\Debug\net10.0\ref\CommonLibrary.dll

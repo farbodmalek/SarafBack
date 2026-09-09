@@ -4,6 +4,6 @@ namespace GirlyShopBackend.Core.Domain.RepositoryInterfaces;
 
 public interface IWishlistRepository : IGenericRepository<WishlistItem>
 {
-    Task<IEnumerable<WishlistItem>> GetByUserIdAsync(string userId);
-    Task<bool> ExistsAsync(string userId, int productId);
+    Task<IEnumerable<WishlistItem>> GetByUserIdAsync(int userId);
+    Task<bool> ExistsAsync(int userId, int productId);
 }

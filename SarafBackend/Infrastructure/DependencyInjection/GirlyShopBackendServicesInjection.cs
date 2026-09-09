@@ -1,9 +1,9 @@
-using System.Reflection;
 using GirlyShopBackend.Core.Domain.RepositoryInterfaces;
 using GirlyShopBackend.Infrastructure.Persistence.Dappers;
 using GirlyShopBackend.Infrastructure.Persistence.EntityFramework;
 using GirlyShopBackend.Infrastructure.Persistence.EntityFramework.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace GirlyShopBackend.Infrastructure.DependencyInjection;
 

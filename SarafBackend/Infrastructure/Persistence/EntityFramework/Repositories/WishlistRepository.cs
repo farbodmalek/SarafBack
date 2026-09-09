@@ -8,7 +8,7 @@ public class WishlistRepository : GenericRepository<WishlistItem>, IWishlistRepo
 {
     public WishlistRepository(ApplicationDbContext context) : base(context) { }
 
-    public async Task<IEnumerable<WishlistItem>> GetByUserIdAsync(string userId)
+    public async Task<IEnumerable<WishlistItem>> GetByUserIdAsync(int userId)
     {
         return await _context.WishlistItems
             .Include(w => w.Product)
@@ -17,7 +17,7 @@ public class WishlistRepository : GenericRepository<WishlistItem>, IWishlistRepo
             .ToListAsync();
     }
 
-    public async Task<bool> ExistsAsync(string userId, int productId)
+    public async Task<bool> ExistsAsync(int userId, int productId)
     {
         return await _context.WishlistItems
             .AnyAsync(w => w.UserId == userId && w.ProductId == productId);

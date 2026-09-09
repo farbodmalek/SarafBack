@@ -1,6 +1,8 @@
 using GirlyShopBackend.Core.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GirlyShopBackend.Infrastructure.Persistence.EntityFramework.Configurations;
 
