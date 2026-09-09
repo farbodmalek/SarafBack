@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LoanMonitoringMicroService.Controllers
+namespace SarafBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

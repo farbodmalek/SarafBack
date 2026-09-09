@@ -1,6 +1,6 @@
-﻿using LoanMonitoringMicroService.Core.Domain.ViewModel.Cartable;
+﻿using SarafBackend.Core.Domain.ViewModel.Cartable;
 
-namespace LoanMonitoringMicroService.Application.DTO.Cartable
+namespace SarafBackend.Application.DTO.Cartable
 {
     public class UserCartableDto: UserCartableVM
 

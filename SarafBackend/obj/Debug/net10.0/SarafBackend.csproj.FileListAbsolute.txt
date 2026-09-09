@@ -1,0 +1,9 @@
+C:\Users\0200272128\source\repos\SarafBackend\SarafBackend\obj\Debug\net10.0\SarafBackend.csproj.AssemblyReference.cache
+C:\Users\0200272128\source\repos\SarafBackend\SarafBackend\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\0200272128\source\repos\SarafBackend\SarafBackend\obj\Debug\net10.0\SarafBackend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\0200272128\source\repos\SarafBackend\SarafBackend\obj\Debug\net10.0\SarafBackend.AssemblyInfoInputs.cache
+C:\Users\0200272128\source\repos\SarafBackend\SarafBackend\obj\Debug\net10.0\SarafBackend.AssemblyInfo.cs
+C:\Users\0200272128\source\repos\SarafBackend\SarafBackend\obj\Debug\net10.0\SarafBackend.csproj.CoreCompileInputs.cache
+C:\Users\0200272128\source\repos\SarafBackend\SarafBackend\obj\Debug\net10.0\SarafBackend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\0200272128\source\repos\SarafBackend\SarafBackend\obj\Debug\net10.0\SarafBackend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\0200272128\source\repos\SarafBackend\SarafBackend\obj\Debug\net10.0\SarafBackend.sourcelink.json
