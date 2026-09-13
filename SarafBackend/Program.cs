@@ -1,4 +1,4 @@
-using GirlyShopBackend.Infrastructure.DependencyInjection;
+using ShopMicroservice.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +7,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddGirlyShopServices(builder.Configuration);
+builder.Services.AddProductServices(builder.Configuration);
 
 var app = builder.Build();
 

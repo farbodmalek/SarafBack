@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SarafBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+83acfcadcec38e06c52cb7bf458114387c338599")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1b877316897bd05f5c78c159401397cbe1aab58")]
 [assembly: System.Reflection.AssemblyProductAttribute("SarafBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SarafBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

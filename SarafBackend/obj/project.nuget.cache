@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+tbtKpmhmGo=",
+  "dgSpecHash": "1G86qw8dBhw=",
   "success": true,
-  "projectFilePath": "C:\\Users\\0200272128\\source\\repos\\SarafBackend\\SarafBackend\\SarafBackend.csproj",
+  "projectFilePath": "C:\\Users\\0200272128\\Desktop\\New folder\\SarafBackend\\SarafBackend\\SarafBackend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\0200272128\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\0200272128\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
@@ -47,9 +47,9 @@
       "code": "NU1903",
       "level": "Warning",
       "message": "Package 'AutoMapper' 12.0.1 has a known high severity vulnerability, https://github.com/advisories/GHSA-rvv3-g6hj-g44x",
-      "projectPath": "C:\\Users\\0200272128\\source\\repos\\SarafBackend\\SarafBackend\\SarafBackend.csproj",
+      "projectPath": "C:\\Users\\0200272128\\Desktop\\New folder\\SarafBackend\\SarafBackend\\SarafBackend.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\0200272128\\source\\repos\\SarafBackend\\SarafBackend\\SarafBackend.csproj",
+      "filePath": "C:\\Users\\0200272128\\Desktop\\New folder\\SarafBackend\\SarafBackend\\SarafBackend.csproj",
       "libraryId": "AutoMapper",
       "targetGraphs": [
         "net10.0"
@@ -59,9 +59,9 @@
       "code": "NU1701",
       "level": "Warning",
       "message": "Package 'Microsoft.AspNet.WebApi.Core 5.3.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net10.0'. This package may not be fully compatible with your project.",
-      "projectPath": "C:\\Users\\0200272128\\source\\repos\\SarafBackend\\SarafBackend\\SarafBackend.csproj",
+      "projectPath": "C:\\Users\\0200272128\\Desktop\\New folder\\SarafBackend\\SarafBackend\\SarafBackend.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\0200272128\\source\\repos\\SarafBackend\\SarafBackend\\SarafBackend.csproj",
+      "filePath": "C:\\Users\\0200272128\\Desktop\\New folder\\SarafBackend\\SarafBackend\\SarafBackend.csproj",
       "libraryId": "Microsoft.AspNet.WebApi.Core",
       "targetGraphs": [
         "net10.0"
