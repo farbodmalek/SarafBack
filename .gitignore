@@ -5,3 +5,6 @@
 /.vs/SarafBackend.slnx
 /SarafBackend.slnx
 /.vs
+/SarafBackend/SarafMicroServies.csproj
+/CommonLibrary/CommonLibrary.csproj
+/GirlyShop.AuthService/AuthMicroServies.csproj
