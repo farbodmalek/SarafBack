@@ -1,0 +1,13 @@
+namespace GirlyShop.AuthService.Core.DomainServices.Auth;
+
+// خوانده‌شده از بخش "Jwt" در appsettings.json
+public class JwtSettings
+{
+    public const string SectionName = "Jwt";
+
+    public string Key { get; set; } = string.Empty;
+    public string Issuer { get; set; } = string.Empty;
+    public string Audience { get; set; } = string.Empty;
+    public int AccessTokenMinutes { get; set; } = 15;
+    public int RefreshTokenDays { get; set; } = 7;
+}

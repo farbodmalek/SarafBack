@@ -33,8 +33,9 @@ namespace ShopMicroservice.Core.DomainServices.Product
 
         public Task UpdateAsync(Domain.Product product, CancellationToken cancellationToken)
         {
+            // محصول از قبل با GetTrackedByIdAsync «ردیابی» شده؛ فقط زمان ویرایش را می‌زنیم.
+            // (Update() کل گراف را Modified می‌کرد و واریانت‌های تازه‌ساخته را خراب می‌کرد.)
             product.UpdatedAt = DateTime.UtcNow;
-            _dbContext.Products.Update(product);
             return Task.CompletedTask;
         }
 

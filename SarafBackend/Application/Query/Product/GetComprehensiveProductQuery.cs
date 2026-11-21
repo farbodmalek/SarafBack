@@ -5,7 +5,7 @@ using ShopMicroservice.Core.Interfaces;
 namespace ShopMicroservice.Application.Query.Product
 {
     /// <summary>لیست جامع همه محصولات — مناسب صفحه فروشگاه اصلی با فیلترها.</summary>
-    public class GetComprehensiveProductQuery : ProductFilterDto, IRequest<PagedResult<ProductListItemDto>>
+    public class GetComprehensiveProductQuery : IRequest<PagedResult<ProductListItemDto>>
     {
         public ProductFilterDto Filter { get; set; } = new();
     }

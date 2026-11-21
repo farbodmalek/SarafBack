@@ -16,6 +16,8 @@ namespace ShopMicroservice.Application.DTO
         public string Name { get; set; } = default!;
         public string Slug { get; set; } = default!;
         public decimal BasePrice { get; set; }
+        /// <summary>کمترین قیمت واریانتی که تخفیف دارد (اگر تخفیفی نباشد null)</summary>
+        public decimal? DiscountPrice { get; set; }
         public string? PrimaryImageUrl { get; set; }
         public string CategoryName { get; set; } = default!;
         public string? BrandName { get; set; }

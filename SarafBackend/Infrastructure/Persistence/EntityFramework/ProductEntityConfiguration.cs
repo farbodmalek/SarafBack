@@ -10,6 +10,7 @@ namespace ShopMicroservice.Infrastructure.Persistence.EntityFramework
         {
             builder.ToTable("Products");
             builder.HasKey(p => p.Id);
+            builder.Property(p => p.Id).ValueGeneratedNever(); // Guid را خودمان در C# می‌سازیم
 
             builder.Property(p => p.Name).IsRequired().HasMaxLength(255);
             builder.Property(p => p.Slug).IsRequired().HasMaxLength(280);
@@ -39,6 +40,7 @@ namespace ShopMicroservice.Infrastructure.Persistence.EntityFramework
         {
             builder.ToTable("ProductImages");
             builder.HasKey(i => i.Id);
+            builder.Property(i => i.Id).ValueGeneratedNever();
             builder.Property(i => i.ImageUrl).IsRequired().HasMaxLength(500);
         }
     }
@@ -49,6 +51,7 @@ namespace ShopMicroservice.Infrastructure.Persistence.EntityFramework
         {
             builder.ToTable("ProductVariants");
             builder.HasKey(v => v.Id);
+            builder.Property(v => v.Id).ValueGeneratedNever();
             builder.Property(v => v.Sku).IsRequired().HasMaxLength(100);
             builder.HasIndex(v => v.Sku).IsUnique();
             builder.Property(v => v.Price).HasColumnType("decimal(14,2)");

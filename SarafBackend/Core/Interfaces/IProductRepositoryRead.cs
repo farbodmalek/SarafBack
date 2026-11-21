@@ -9,6 +9,7 @@ namespace ShopMicroservice.Core.Interfaces
     public interface IProductRepositoryRead
     {
         Task<ProductDetailDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<ProductDetailDto?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
 
         Task<PagedResult<ProductListItemDto>> GetComprehensiveListAsync(
             ProductFilterDto filter, CancellationToken cancellationToken);
@@ -17,6 +18,10 @@ namespace ShopMicroservice.Core.Interfaces
             long categoryId, ProductFilterDto filter, CancellationToken cancellationToken);
 
         Task<PagedResult<ProductListItemDto>> GetFeaturedListAsync(
+            ProductFilterDto filter, CancellationToken cancellationToken);
+
+        /// <summary>لیست مخصوص پنل ادمین: همه‌ی وضعیت‌ها (پیش‌نویس، منتشرشده، بایگانی) + مجموع موجودی.</summary>
+        Task<PagedResult<AdminProductListItemDto>> GetAdminListAsync(
             ProductFilterDto filter, CancellationToken cancellationToken);
     }
 }

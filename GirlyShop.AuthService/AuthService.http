@@ -1,0 +1,43 @@
+@baseUrl = http://localhost:5100
+
+### 1) ثبت‌نام
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "fullName": "سارا احمدی",
+  "phoneNumber": "09123456789",
+  "password": "123456"
+}
+
+### 2) ورود
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "phoneNumber": "09123456789",
+  "password": "123456"
+}
+
+### 3) اطلاعات خودم  (accessToken جواب بالا را به‌جای TOKEN بگذار)
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer TOKEN
+
+### 4) گرفتن «کارت ورود» تازه  (refreshToken جواب بالا را بگذار)
+POST {{baseUrl}}/api/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "REFRESH_TOKEN"
+}
+
+### 5) خروج
+POST {{baseUrl}}/api/auth/logout
+Content-Type: application/json
+
+{
+  "refreshToken": "REFRESH_TOKEN"
+}
+
+### سلامت سرویس
+GET {{baseUrl}}/health
