@@ -1,67 +1,29 @@
-# ماژول Product — معماری CQRS (روی همون اسکیمای دیتابیس فروشگاه)
+# سرویس اصلی فروشگاه (پورت 5107)
 
-دقیقاً همون الگوی HomeMicroservice، فقط برای دامنه فروشگاه آنلاین (Product/Category/Brand/Variant).
+CQRS با MediatR: خواندن با Dapper، نوشتن با EF Core. توکن را سرویس Auth (پورت 5100) می‌سازد و این سرویس فقط بررسی می‌کند
+(`Jwt:Issuer/Audience/Key` باید در هر دو سرویس یکی باشد).
 
-## چیدمان لایه‌ها
+## API ها
+عمومی (بدون توکن):
+- `GET  /api/product` · `/api/product/featured` · `/api/product/category/{id}` · `/api/product/slug/{slug}`
+- `GET  /api/categories`
+- `GET  /api/orders/options` (روش‌های ارسال و پرداخت)
 
-```
-Application/
-  Commands/Product/
-    SetProductRequestCommand.cs → ثبت/ویرایش محصول (همراه واریانت‌ها و تصاویر)
-    DeleteProductCommand.cs     → حذف محصول
-  Query/Product/
-    GetComprehensiveProductQuery.cs → لیست جامع با فیلتر (قیمت، برند، جستجو)
-    GetProductDetailById.cs          → جزئیات یک محصول + واریانت‌ها
-    GetProductListByCategoryQuery.cs → لیست محصولات یک دسته‌بندی
-    GetFeaturedProductsQuery.cs      → محصولات ویژه/شاخص
-  DTO/ProductDtos.cs      → ProductDetailDto, ProductListItemDto, ProductVariantDto, ProductFilterDto
-  Mapping/ProductMappingProfile.cs → AutoMapper
+مشتری (نیاز به توکن):
+- سبد: `GET /api/cart` · `POST /api/cart/items {variantId, quantity}` · `PUT /api/cart/items/{variantId} {quantity}` · `DELETE /api/cart/items/{variantId}` · `DELETE /api/cart` · `POST /api/cart/merge {items:[{variantId,quantity}]}`
+- آدرس: `GET/POST /api/addresses` · `PUT/DELETE /api/addresses/{id}`
+- علاقه‌مندی: `GET /api/wishlist` · `GET /api/wishlist/ids` · `POST/DELETE /api/wishlist/{productId}`
+- سفارش: `POST /api/orders {addressId, shippingMethod, paymentMethod}` · `GET /api/orders` · `GET /api/orders/{AV-100001}` · `POST /api/orders/{AV-100001}/cancel`
 
-Core/
-  Domain/Product.cs → Product, ProductImage, ProductVariant, ProductVariantAttribute, Category, Brand
-  Interfaces/IProductRepositoryRead.cs / IProductRepositoryWrite.cs
-  DomainServices/Product/
-    ProductRepositoryRead.cs  → Dapper (فقط خواندن، مستقیم روی جداول Products/ProductVariants/...)
-    ProductRepositoryWrite.cs → EF Core (فقط نوشتن)
+ادمین (توکن با role=Admin):
+- `GET /api/admin/dashboard`
+- `GET /api/admin/orders?status=&searchTerm=&pageNumber=` · `GET /api/admin/orders/{n}` · `PUT /api/admin/orders/{n}/status {status}`
+- `GET/POST /api/admin/categories` · `PUT/DELETE /api/admin/categories/{id}`
+- `GET /api/admin/products` · `PUT /api/admin/products/{id}/status {status}` · `POST /api/product` (ثبت/ویرایش) · `DELETE /api/product/{id}` · `GET /api/product/{id}`
+- `POST /api/admin/uploads` (multipart، فیلد `file`؛ jpg/png/webp تا ۵ مگابایت)
 
-Infrastructure/
-  Persistence/EntityFramework/ShopDbContext.cs + ProductEntityConfiguration.cs
-  Persistence/Dappers/DapperContext.cs
-  DependencyInjection/ProductServicesInjection.cs
-
-Controllers/ProductController.cs → فقط MediatR.Send صدا می‌زند
-```
-
-## اتصال به Program.cs
-
-```csharp
-builder.Services.AddProductServices(builder.Configuration);
-```
-
-## appsettings.json
-
-```json
-{
-  "ConnectionStrings": {
-    "ShopWriteConnection": "Server=.;Database=online_shop_db;Trusted_Connection=True;TrustServerCertificate=True;",
-    "ShopReadConnection":  "Server=.;Database=online_shop_db;Trusted_Connection=True;TrustServerCertificate=True;"
-  }
-}
-```
-
-توجه: این ماژول روی همون دیتابیس `online_shop_db` (فایل `online_shop_schema_sqlserver.sql`) کار می‌کنه.
-جدول‌های `Products`, `ProductImages`, `ProductVariants`, `ProductVariantAttributes`,
-`Categories`, `Brands` رو مستقیم می‌خونه/می‌نویسه. بقیه جدول‌های اون اسکیما (سفارش، سبد خرید،
-کاربران و ...) رو می‌تونی به همین سبک، ماژول به ماژول (مثلاً `OrderMicroservice`,
-`CartMicroservice`) اضافه کنی — همین یک الگو رو کپی و اسم عوض کن.
-
-## پکیج‌های NuGet لازم
-
-```
-MediatR
-AutoMapper
-Dapper
-Microsoft.Data.SqlClient
-Microsoft.EntityFrameworkCore.SqlServer
-Microsoft.EntityFrameworkCore.Design
-```
+## نکته‌های مهم
+- قیمت و موجودی همیشه از دیتابیس خوانده می‌شود، نه از فرانت. ثبت سفارش موجودی را اتمی کم می‌کند و اگر یکی کم بود کل سفارش برمی‌گردد.
+- سفارش «عکس لحظه‌ی خرید» را نگه می‌دارد (نام، قیمت، آدرس)؛ ویرایش یا حذف محصول سفارش‌های قدیمی را عوض نمی‌کند.
+- لغو سفارش موجودی را به انبار برمی‌گرداند. «تحویل‌شده» و «لغوشده» پایان مسیرند.
+- پرداخت آنلاین هنوز به درگاه بانکی وصل نیست؛ فقط روش پرداخت ثبت می‌شود.

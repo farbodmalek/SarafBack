@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "GirlyShop.AuthService\\AuthMicroServies.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "SarafBackend\\SarafMicroServies.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

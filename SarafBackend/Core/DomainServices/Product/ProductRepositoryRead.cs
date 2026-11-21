@@ -19,24 +19,35 @@ namespace ShopMicroservice.Core.DomainServices.Product
             _context = context;
         }
 
-        public async Task<ProductDetailDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        public Task<ProductDetailDto?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+            => GetDetailAsync("p.Id = @Key", id, cancellationToken);
+
+        public Task<ProductDetailDto?> GetBySlugAsync(string slug, CancellationToken cancellationToken)
+            => GetDetailAsync("p.Slug = @Key AND p.Status = 'Published'", slug, cancellationToken);
+
+        private async Task<ProductDetailDto?> GetDetailAsync(
+            string whereClause, object key, CancellationToken cancellationToken)
         {
-            const string sql = @"
+            var sql = $@"
                 SELECT p.Id, p.Name, p.Slug, p.Description, p.BasePrice, p.Status,
                        p.CategoryId, c.Name AS CategoryName,
                        p.BrandId, b.Name AS BrandName, p.CreatedAt
                 FROM Products p
                 INNER JOIN Categories c ON c.Id = p.CategoryId
                 LEFT JOIN Brands b ON b.Id = p.BrandId
-                WHERE p.Id = @Id;
+                WHERE {whereClause};
 
-                SELECT ImageUrl FROM ProductImages WHERE ProductId = @Id ORDER BY SortOrder;
+                SELECT i.ImageUrl FROM ProductImages i
+                INNER JOIN Products p ON p.Id = i.ProductId
+                WHERE {whereClause} ORDER BY i.SortOrder;
 
-                SELECT Id, Sku, Price, CompareAtPrice, StockQuantity
-                FROM ProductVariants WHERE ProductId = @Id;";
+                SELECT v.Id, v.Sku, v.Price, v.CompareAtPrice, v.StockQuantity
+                FROM ProductVariants v
+                INNER JOIN Products p ON p.Id = v.ProductId
+                WHERE {whereClause};";
 
             using var connection = _context.CreateConnection();
-            var command = new CommandDefinition(sql, new { Id = id }, cancellationToken: cancellationToken);
+            var command = new CommandDefinition(sql, new { Key = key }, cancellationToken: cancellationToken);
 
             using var multi = await connection.QueryMultipleAsync(command);
 
@@ -89,6 +100,58 @@ namespace ShopMicroservice.Core.DomainServices.Product
         public Task<PagedResult<ProductListItemDto>> GetFeaturedListAsync(
             ProductFilterDto filter, CancellationToken cancellationToken)
             => QueryListAsync(filter, categoryId: null, featuredOnly: true, cancellationToken);
+
+        public async Task<PagedResult<AdminProductListItemDto>> GetAdminListAsync(
+            ProductFilterDto filter, CancellationToken cancellationToken)
+        {
+            var where = new StringBuilder(" WHERE 1 = 1 ");
+            var parameters = new DynamicParameters();
+
+            if (filter.CategoryId.HasValue)
+            {
+                where.Append(" AND p.CategoryId = @CategoryId ");
+                parameters.Add("CategoryId", filter.CategoryId.Value);
+            }
+            if (!string.IsNullOrWhiteSpace(filter.SearchTerm))
+            {
+                where.Append(" AND (p.Name LIKE @SearchTerm OR p.Slug LIKE @SearchTerm) ");
+                parameters.Add("SearchTerm", $"%{filter.SearchTerm}%");
+            }
+
+            var pageSize = filter.PageSize <= 0 ? 20 : filter.PageSize;
+            var pageNumber = filter.PageNumber <= 0 ? 1 : filter.PageNumber;
+
+            var countSql = $"SELECT COUNT(1) FROM Products p {where}";
+            var dataSql = $@"
+                SELECT p.Id, p.Name, p.Slug, p.BasePrice, p.Status, p.IsFeatured,
+                       c.Name AS CategoryName,
+                       (SELECT ISNULL(SUM(v.StockQuantity), 0) FROM ProductVariants v
+                        WHERE v.ProductId = p.Id) AS TotalStock,
+                       (SELECT TOP 1 i.ImageUrl FROM ProductImages i
+                        WHERE i.ProductId = p.Id AND i.IsPrimary = 1) AS PrimaryImageUrl
+                FROM Products p
+                INNER JOIN Categories c ON c.Id = p.CategoryId
+                {where}
+                ORDER BY p.CreatedAt DESC
+                OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";
+
+            parameters.Add("Offset", (pageNumber - 1) * pageSize);
+            parameters.Add("PageSize", pageSize);
+
+            using var connection = _context.CreateConnection();
+            var totalCount = await connection.ExecuteScalarAsync<int>(
+                new CommandDefinition(countSql, parameters, cancellationToken: cancellationToken));
+            var items = await connection.QueryAsync<AdminProductListItemDto>(
+                new CommandDefinition(dataSql, parameters, cancellationToken: cancellationToken));
+
+            return new PagedResult<AdminProductListItemDto>
+            {
+                Items = items.ToList(),
+                TotalCount = totalCount,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+        }
 
         private async Task<PagedResult<ProductListItemDto>> QueryListAsync(
             ProductFilterDto filter, long? categoryId, bool featuredOnly, CancellationToken cancellationToken)
@@ -146,6 +209,9 @@ namespace ShopMicroservice.Core.DomainServices.Product
             var dataSql = $@"
                 SELECT p.Id, p.Name, p.Slug, p.BasePrice, p.IsFeatured,
                        c.Name AS CategoryName, b.Name AS BrandName,
+                       (SELECT MIN(v.Price) FROM ProductVariants v
+                        WHERE v.ProductId = p.Id AND v.IsActive = 1
+                          AND v.CompareAtPrice IS NOT NULL AND v.CompareAtPrice > v.Price) AS DiscountPrice,
                        (SELECT TOP 1 i.ImageUrl FROM ProductImages i
                         WHERE i.ProductId = p.Id AND i.IsPrimary = 1) AS PrimaryImageUrl
                 FROM Products p

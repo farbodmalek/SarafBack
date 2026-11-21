@@ -15,6 +15,11 @@ namespace ShopMicroservice.Infrastructure.Persistence.EntityFramework
         public DbSet<ProductVariantAttribute> ProductVariantAttributes => Set<ProductVariantAttribute>();
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<Brand> Brands => Set<Brand>();
+        public DbSet<Address> Addresses => Set<Address>();
+        public DbSet<CartItem> CartItems => Set<CartItem>();
+        public DbSet<WishlistItem> WishlistItems => Set<WishlistItem>();
+        public DbSet<Order> Orders => Set<Order>();
+        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +29,11 @@ namespace ShopMicroservice.Infrastructure.Persistence.EntityFramework
             modelBuilder.ApplyConfiguration(new ProductVariantAttributeEntityConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryEntityConfiguration());
             modelBuilder.ApplyConfiguration(new BrandEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new AddressEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new CartItemEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new WishlistItemEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderItemEntityConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }

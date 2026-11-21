@@ -101,30 +101,58 @@ namespace ShopMicroservice.Application.Commands.Product
             }
         }
 
+        /// <summary>
+        /// واریانت‌ها بر اساس SKU «به‌روزرسانی» می‌شوند، نه پاک و دوباره‌ساخته؛
+        /// تا شناسه‌ی واریانت (که در سبد خرید و علاقه‌مندی‌ها استفاده شده) عوض نشود.
+        /// </summary>
         private static void ReplaceVariants(Core.Domain.Product product, List<ProductVariantInput> variants)
         {
-            product.Variants.Clear();
-            foreach (var variantInput in variants)
-            {
-                var variant = new ProductVariant
-                {
-                    Sku = variantInput.Sku,
-                    Price = variantInput.Price,
-                    CompareAtPrice = variantInput.CompareAtPrice,
-                    StockQuantity = variantInput.StockQuantity
-                };
+            var incomingSkus = variants.Select(v => v.Sku).ToHashSet();
 
-                foreach (var (key, value) in variantInput.Attributes)
+            // واریانت‌هایی که دیگر در لیست نیستند حذف می‌شوند
+            foreach (var removed in product.Variants.Where(v => !incomingSkus.Contains(v.Sku)).ToList())
+            {
+                product.Variants.Remove(removed);
+            }
+
+            foreach (var input in variants)
+            {
+                var variant = product.Variants.FirstOrDefault(v => v.Sku == input.Sku);
+
+                if (variant is null)
                 {
-                    variant.Attributes.Add(new ProductVariantAttribute
-                    {
-                        VariantId = variant.Id,
-                        AttributeName = key,
-                        AttributeValue = value
-                    });
+                    variant = new ProductVariant { Sku = input.Sku };
+                    product.Variants.Add(variant);
                 }
 
-                product.Variants.Add(variant);
+                variant.Price = input.Price;
+                variant.CompareAtPrice = input.CompareAtPrice;
+                variant.StockQuantity = input.StockQuantity;
+
+                // ویژگی‌ها: موجودها به‌روز، تازه‌ها اضافه، حذف‌شده‌ها پاک
+                foreach (var removedAttr in variant.Attributes
+                             .Where(a => !input.Attributes.ContainsKey(a.AttributeName)).ToList())
+                {
+                    variant.Attributes.Remove(removedAttr);
+                }
+
+                foreach (var (key, value) in input.Attributes)
+                {
+                    var attr = variant.Attributes.FirstOrDefault(a => a.AttributeName == key);
+                    if (attr is null)
+                    {
+                        variant.Attributes.Add(new ProductVariantAttribute
+                        {
+                            VariantId = variant.Id,
+                            AttributeName = key,
+                            AttributeValue = value
+                        });
+                    }
+                    else
+                    {
+                        attr.AttributeValue = value;
+                    }
+                }
             }
         }
     }
